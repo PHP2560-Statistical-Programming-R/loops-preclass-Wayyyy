@@ -1,5 +1,6 @@
 ---
-title: "Untitled"
+title: "Sept 27 Pre-Class "
+author: "Wei Wang"
 output: html_document
 ---
 
@@ -9,21 +10,44 @@ output: html_document
 ### Question 1:
 
 Using a loop, print the integers from 1 to 50. 
-
+```{r, echo=TRUE}
+for (i in 1:50) {
+  print(i)
+}
+```
 
 ### Question 2:
 
 A.  Using a loop, add all the integers between 0 and 1000.
+```{r, echo=TRUE}
+Sum <-0
+for (i in 0:1000){
+  Sum <- Sum + i
+}
+
+Sum
+```
 
 B. Now, add all the EVEN integers between 0 and 1000 (hint: use seq())
+```{r, echo=TRUE}
+s <- seq(2, 1000, 2)
+current.sum <- 0
+for (i in s){
+  current.sum <- current.sum + i
+}
+current.sum
+```
 
 C. Now, repeat A and B WITHOUT using a loop.
-
+```{r, echo=TRUE}
+1000*(1000+1)/2
+1000*(1000+2)/4
+```
 ### Question 3:
 
 Here is a dataframe of survey data containing 5 questions :
 
-```{r, eval=FALSE}
+```{r, echo=TRUE}
 survey <- data.frame(
                      "participant" = c(1, 2, 3, 4, 5, 6),
                      "q1" = c(5, 3, 2, 7, 11, 0),
@@ -36,5 +60,24 @@ survey <- data.frame(
 The response to each question should be an integer between 1 and 5. Obviously, we have some bad values in the dataframe. The goal of this problem is to fix them.
 
 A. Using a loop, create a new dataframe called survey.clean where all the invalid values (those that are not integers between 1 and 5) are set to NA.
+```{r, echo=TRUE}
+survey.clean <- survey
+for (i in 1:nrow(survey.clean)){
+  y <- survey.clean[, i]
+  y[(y %in% c(1:5)) == F] <- NA
+  survey.clean[, i] <- y
+}
+survey.clean
+```
 
-B. Now, again using a loop, add a new column to the dataframe called “invalid.answers” that indicates, for each participant, how many bad answers they gave.
+B. Now, again using a loop, add a new column to the dataframe called "invalid.answers" that indicates, for each participant, how many bad answers they gave.
+```{r, echo=TRUE}
+survey.clean$invalid.answers <- rep(NA, nrow(survey.clean))
+for (i in 1:nrow(survey.clean)){
+  y <- survey.clean[i,1:ncol(survey.clean)-1]
+  x <- is.na(y)
+  survey.clean$invalid.answers[i] <- sum(x)
+}
+survey.clean
+```
+
